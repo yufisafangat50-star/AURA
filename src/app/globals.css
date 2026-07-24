@@ -1,1 +1,104 @@
 @import "tailwindcss";
+
+@theme {
+  --color-ink: #1E201E;
+  --color-ink-soft: #3C3D37;
+  --color-sage: #697565;
+  --color-paper: #ECDFCC;
+  --color-paper-card: #F7F1E4;
+  --color-paper-card-alt: #F4EEE1;
+  --color-border-soft: #cfc6b2;
+  --color-muted-text: #5b5642;
+  --color-muted-light: #8a8370;
+
+  --font-serif: var(--font-lora), "Georgia", "Times New Roman", serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  background-color: var(--color-paper);
+  background-image: radial-gradient(circle, var(--color-border-soft) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-heading {
+  font-family: var(--font-serif);
+}
+
+.label-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: var(--color-muted-text);
+  font-family: var(--font-sans);
+}
+
+.card-pin {
+  position: relative;
+}
+.card-pin::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-sage);
+  border: 2px solid var(--color-paper);
+  z-index: 10;
+}
+
+.washi-tape {
+  position: relative;
+}
+.washi-tape::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 12px;
+  width: 72px;
+  height: 8px;
+  background-color: var(--color-sage);
+  opacity: 0.35;
+  border-radius: 1px;
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-border-soft);
+}
+.progress-bar-fill {
+  height: 2px;
+  background-color: var(--color-ink);
+  transition: width 0.3s ease;
+}
+
+@keyframes canvas-highlight {
+  0% { border-color: var(--color-sage); }
+  100% { border-color: var(--color-border-soft); }
+}
+.canvas-card-updated {
+  animation: canvas-highlight 2s ease-out forwards;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-soft);
+  border-radius: 3px;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-sage);
+  outline-offset: 2px;
+}

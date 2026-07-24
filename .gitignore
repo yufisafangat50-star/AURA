@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+docs/MASTER-VISION.md
+docs/DATA-MODEL.md
+docs/V1-SPEC.md
+docs/DESIGN-SPEC.md
