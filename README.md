@@ -6,7 +6,7 @@ Proyek ini dibangun menggunakan arsitektur modern untuk memastikan interaksi *re
 
 ## 🚀 Fitur Utama
 
-- **Socratic Brainstorming:** Menggunakan model AI (*Gemini 3.5 Flash Lite*) untuk membimbing pengguna menggali ide riset, bukan sekadar memberikan jawaban instan.
+- **Socratic Brainstorming:** Menggunakan model AI (*Gemini 3 Flash*) untuk membimbing pengguna menggali ide riset, bukan sekadar memberikan jawaban instan.
 - **Dynamic Research Canvas:** AI secara proaktif memperbarui variabel, pertanyaan penelitian, dan metode secara *real-time* seiring berjalannya diskusi.
 - **Smart Literature Search:** Terintegrasi dengan **Semantic Scholar API**. Dilengkapi dengan *AI-in-the-Middle Evaluator* untuk menyaring artikel berdasarkan relevansi semantik, bukan sekadar pencocokan kata kunci.
 - **Genome Profiling:** Sistem personalisasi (Genome) untuk menyesuaikan gaya diskusi AI dengan tingkat keahlian dan ketersediaan data pengguna.
@@ -46,7 +46,7 @@ Proyek ini dibangun menggunakan arsitektur modern untuk memastikan interaksi *re
    ```bash
    cp env.example .env.local
    ```
-   *Catatan: Pastikan mengatur `GEMINI_MODEL_NAME=gemini-3.5-flash-lite` di dalam `.env.local` jika menggunakan tier gratis.*
+   *Catatan: Pastikan mengatur `GEMINI_MODEL_NAME=gemini-3-flash` di dalam `.env.local` jika menggunakan tier gratis.*
 
 4. **Siapkan Database (Prisma)**
    Pastikan Supabase Anda berjalan, lalu sinkronkan skema database:

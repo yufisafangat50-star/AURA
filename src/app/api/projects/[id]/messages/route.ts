@@ -63,7 +63,7 @@ Daftar Paper:
 ${rawResults.map((r: any, i: number) => `[${i}] Judul: ${r.title}\nAbstrak: ${r.abstract}`).join("\n\n")}`;
 
   try {
-    const evalModelName = process.env.GEMINI_MODEL_NAME || "gemini-3.5-flash-lite";
+    const evalModelName = process.env.GEMINI_MODEL_NAME || "gemini-3-flash";
     const evalModel = genAI.getGenerativeModel({ model: evalModelName });
     const evalResult = await evalModel.generateContent(evalPrompt);
     let evalText = evalResult.response.text().trim();
@@ -281,7 +281,7 @@ Research Gap: ${project.canvas?.research_gap_notes}
 Methods: ${project.canvas?.candidate_methods}
 Notes: ${project.canvas?.notes}`;
 
-    const modelName = process.env.GEMINI_MODEL_NAME || "gemini-3.5-flash-lite";
+    const modelName = process.env.GEMINI_MODEL_NAME || "gemini-3-flash";
     const model = genAI.getGenerativeModel({
       model: modelName,
       systemInstruction: { role: "system", parts: [{ text: systemInstruction }] },

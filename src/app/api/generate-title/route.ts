@@ -20,7 +20,8 @@ export async function POST(req: Request) {
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash-lite" });
+    const modelName = process.env.GEMINI_MODEL_NAME || "gemini-3-flash";
+    const model = genAI.getGenerativeModel({ model: modelName });
 
     const prompt = `
 Anda adalah AI Research Assistant bernama Aura.
