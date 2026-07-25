@@ -61,7 +61,8 @@ h1, h2, h3, h4, h5, h6,
   position: absolute;
   top: -3px;
   left: 12px;
-  width: 72px;
+  width: calc(100% - 24px);
+  max-width: 72px;
   height: 8px;
   background-color: var(--color-sage);
   opacity: 0.35;

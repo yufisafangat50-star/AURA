@@ -238,7 +238,7 @@ export default function InterviewStepper({
           className={`border-2 px-5 py-2 text-sm font-medium transition-colors
             ${
               isStepValid()
-                ? "border-ink bg-ink text-sage hover:bg-ink-soft"
+                ? "border-ink bg-ink text-paper hover:bg-ink-soft"
                 : "border-border-soft bg-paper-card text-muted-light cursor-not-allowed"
             }`}
           style={{ borderRadius: "3px" }}

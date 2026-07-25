@@ -3,6 +3,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 interface CanvasCardProps {
   label: string;
@@ -40,9 +41,17 @@ export default function CanvasCard({
       }}
     >
       <span className="label-caps">{label}</span>
-      <p className="mt-2 text-sm text-ink leading-relaxed whitespace-pre-wrap">
-        {content}
-      </p>
+      <div className="mt-2 text-sm text-ink leading-relaxed whitespace-pre-wrap">
+        <ReactMarkdown
+          components={{
+            p: ({ node, ...props }) => <span {...props} />,
+            strong: ({ node, ...props }) => <strong className="font-semibold" {...props} />,
+            em: ({ node, ...props }) => <em className="italic" {...props} />,
+          }}
+        >
+          {content}
+        </ReactMarkdown>
+      </div>
     </div>
   );
 }

@@ -97,11 +97,19 @@ EvidenceReference:
   id: uuid
   project_id: uuid (FK -> Project)
   source_title: string
+  source_authors: string              # ditambahkan V1 lanjutan — nama penulis, dipisah koma
+  publication_year: integer           # ditambahkan V1 lanjutan
+  abstract_snippet: text              # ditambahkan V1 lanjutan — cuplikan abstrak dari Semantic Scholar
   source_url: string
   source_provider: string            # mis. "Semantic Scholar"
   retrieved_at: timestamp
   relevance_note: text               # kenapa dokumen ini relevan, ditulis singkat oleh sistem
 ```
+
+Catatan: field authors/year/abstract ditambahkan setelah user testing V1 menunjukkan
+kartu sitasi minimal (judul+link) kurang informatif dibanding kartu literatur yang
+sudah dirancang di DESIGN-SPEC.md (kartu "Sumber" dengan ikon dokumen). Data ini
+tersedia langsung dari response Semantic Scholar API, tidak perlu request tambahan.
 
 ---
 

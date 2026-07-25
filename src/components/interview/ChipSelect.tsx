@@ -59,7 +59,7 @@ export default function ChipSelect({
                 border-2 px-3 py-1.5 text-sm transition-colors
                 ${
                   isSelected
-                    ? "border-ink bg-ink text-sage font-medium"
+                    ? "border-ink bg-ink text-paper font-medium"
                     : "border-border-soft bg-paper-card text-ink-soft hover:border-ink hover:text-ink"
                 }
               `}
@@ -77,7 +77,7 @@ export default function ChipSelect({
               key={custom}
               type="button"
               onClick={() => toggleOption(custom)}
-              className="border-2 border-ink bg-ink px-3 py-1.5 text-sm font-medium text-sage
+              className="border-2 border-ink bg-ink px-3 py-1.5 text-sm font-medium text-paper
                          transition-colors"
               style={{ borderRadius: "3px" }}
             >

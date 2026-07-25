@@ -3,8 +3,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useApp } from "@/lib/context";
+import { createClient } from "@/lib/supabase/client";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard" },
@@ -12,7 +13,15 @@ const NAV_ITEMS = [
 
 export default function AppHeader() {
   const pathname = usePathname();
-  const { scenario, setScenario, user } = useApp();
+  const router = useRouter();
+  const { user } = useApp();
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  };
 
   return (
     <header className="border-b-2 border-ink bg-paper-card">
@@ -49,33 +58,22 @@ export default function AppHeader() {
         </nav>
 
         <div className="flex items-center gap-3 pb-4">
-          <div className="flex items-center gap-1.5 rounded-sm border border-border-soft bg-paper px-2 py-1">
-            <span className="label-caps">Simulasi:</span>
-            <button
-              onClick={() => setScenario("new")}
-              className={`px-2 py-0.5 text-xs transition-colors ${
-                scenario === "new"
-                  ? "bg-ink text-sage font-medium"
-                  : "text-muted-text hover:text-ink-soft"
-              }`}
-              style={{ borderRadius: "2px" }}
-            >
-              User Baru
-            </button>
-            <button
-              onClick={() => setScenario("returning")}
-              className={`px-2 py-0.5 text-xs transition-colors ${
-                scenario === "returning"
-                  ? "bg-ink text-sage font-medium"
-                  : "text-muted-text hover:text-ink-soft"
-              }`}
-              style={{ borderRadius: "2px" }}
-            >
-              User Lama
-            </button>
-          </div>
-
-          <span className="text-sm text-ink-soft">{user.name}</span>
+          <button 
+            onClick={handleLogout}
+            title="Keluar / Logout"
+            className="flex items-center gap-2 rounded-full border-2 border-border-soft bg-paper-card-alt px-3 py-1.5 shadow-sm transition-colors hover:border-ink hover:bg-ink hover:text-paper group"
+          >
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-sage/20 text-sage group-hover:bg-paper/20 group-hover:text-paper transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+            </div>
+            <span className="text-sm font-medium text-ink pr-1 group-hover:text-paper transition-colors">
+              {user ? user.name : "..."}
+            </span>
+          </button>
         </div>
       </div>
     </header>

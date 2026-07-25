@@ -58,6 +58,9 @@ export interface EvidenceReference {
   id: string;
   project_id: string;
   source_title: string;
+  source_authors?: string;
+  publication_year?: number;
+  abstract_snippet?: string;
   source_url: string;
   source_provider: string;
   retrieved_at: string;

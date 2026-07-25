@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ExperienceLevel {
+  pemula
+  menengah
+  lanjutan
+  @@map("experience_level")
+}
+
+enum ProjectStatus {
+  draft
+  active
+  archived
+  @@map("project_status")
+}
+
+enum MessageRole {
+  user
+  assistant
+  @@map("message_role")
+}
+
+model User {
+  id         String   @id @default(uuid()) @db.Uuid
+  email      String
+  name       String?
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  
+  genome     Genome?
+  projects   Project[]
+
+  @@map("users")
+}
+
+model Genome {
+  id                   String           @id @default(uuid()) @db.Uuid
+  user_id              String           @unique @db.Uuid
+  fields_of_interest   String[]         @default([])
+  skills               String[]         @default([])
+  experience_level     ExperienceLevel?
+  data_access          String[]         @default([])
+  constraints          String?
+  research_style_notes String?
+  updated_at           DateTime         @default(now()) @db.Timestamptz(6)
+
+  user                 User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("genomes")
+}
+
+model Project {
+  id         String        @id @default(uuid()) @db.Uuid
+  user_id    String        @db.Uuid
+  title      String
+  status     ProjectStatus @default(draft)
+  created_at DateTime      @default(now()) @db.Timestamptz(6)
+  updated_at DateTime      @default(now()) @db.Timestamptz(6)
+
+  user       User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  canvas     Canvas?
+  messages   Message[]
+  references EvidenceReference[]
+
+  @@map("projects")
+}
+
+model Canvas {
+  id                  String   @id @default(uuid()) @db.Uuid
+  project_id          String   @unique @db.Uuid
+  problem             String?
+  research_question   String?
+  candidate_variables String?
+  research_gap_notes  String?
+  candidate_methods   String?
+  notes               String?
+  updated_at          DateTime @default(now()) @db.Timestamptz(6)
+
+  project             Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+
+  @@map("canvases")
+}
+
+model Message {
+  id         String      @id @default(uuid()) @db.Uuid
+  project_id String      @db.Uuid
+  role       MessageRole
+  content    String
+  created_at DateTime    @default(now()) @db.Timestamptz(6)
+
+  project    Project     @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  references EvidenceReference[]
+
+  @@index([project_id, created_at], map: "idx_messages_project_id_created_at")
+  @@map("messages")
+}
+
+model EvidenceReference {
+  id              String   @id @default(uuid()) @db.Uuid
+  project_id      String   @db.Uuid
+  message_id      String?  @db.Uuid
+  source_title     String
+  source_authors   String?
+  publication_year Int?
+  abstract_snippet String?
+  source_url       String?
+  source_provider  String?
+  retrieved_at     DateTime @default(now()) @db.Timestamptz(6)
+  relevance_note   String?
+
+  project         Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  message         Message? @relation(fields: [message_id], references: [id], onDelete: Cascade)
+
+  @@index([project_id], map: "idx_evidence_references_project_id")
+  @@index([message_id], map: "idx_evidence_references_message_id")
+  @@map("evidence_references")
+}

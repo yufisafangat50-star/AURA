@@ -3,7 +3,11 @@
 "use client";
 
 import type { Message } from "@/lib/types";
-import ReferenceCard from "@/components/chat/ReferenceCard";
+import EvidenceCard from "@/components/chat/EvidenceCard";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css";
 
 interface ChatBubbleProps {
   message: Message;
@@ -34,14 +38,40 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
           {isUser ? "Kamu" : "Aura"}
         </span>
 
-        <p className="text-sm leading-relaxed whitespace-pre-wrap">
-          {message.content}
-        </p>
+        {!isUser ? (
+          <div className="text-sm leading-relaxed">
+            <ReactMarkdown
+              remarkPlugins={[remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+              components={{
+                p: ({ node, ...props }) => <p className="mb-3 last:mb-0" {...props} />,
+                strong: ({ node, ...props }) => <strong className="font-semibold text-ink" {...props} />,
+                em: ({ node, ...props }) => <em className="italic" {...props} />,
+                ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-3 space-y-1" {...props} />,
+                ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-3 space-y-1" {...props} />,
+                li: ({ node, ...props }) => <li className="leading-relaxed" {...props} />,
+                h1: ({ node, ...props }) => <h1 className="font-serif text-lg font-semibold mt-4 mb-2 text-ink" {...props} />,
+                h2: ({ node, ...props }) => <h2 className="font-serif text-base font-semibold mt-4 mb-2 text-ink" {...props} />,
+                h3: ({ node, ...props }) => <h3 className="font-serif text-sm font-semibold mt-3 mb-1 text-ink" {...props} />,
+                blockquote: ({ node, ...props }) => (
+                  <blockquote className="border-l-2 border-sage pl-3 italic text-muted-light my-3" {...props} />
+                ),
+              }}
+            >
+              {message.content}
+            </ReactMarkdown>
+          </div>
+        ) : (
+          <p className="text-sm leading-relaxed whitespace-pre-wrap">
+            {message.content}
+          </p>
+        )}
 
         {message.references && message.references.length > 0 && (
-          <div className="mt-3 space-y-2">
+          <div className="mt-4 space-y-3 border-t-2 border-border-soft pt-4">
+            <span className="label-caps block text-sage mb-2">Sumber Literatur:</span>
             {message.references.map((ref) => (
-              <ReferenceCard key={ref.id} reference={ref} />
+              <EvidenceCard key={ref.id} reference={ref} />
             ))}
           </div>
         )}
