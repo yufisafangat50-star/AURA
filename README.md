@@ -1,6 +1,6 @@
-# Aura — AI Research Mentor
+# AURA — AI University Research Assistant
 
-Aura adalah asisten peneliti berbasis AI (Artificial Intelligence) yang dirancang untuk membantu mahasiswa dan peneliti merumuskan ide penelitian, menyusun *Research Canvas*, dan membedah literatur akademik melalui pendekatan Socratic Dialogue. 
+**AURA** (AI University Research Assistant) adalah asisten peneliti berbasis AI (Artificial Intelligence) yang dirancang untuk membantu mahasiswa dan peneliti merumuskan ide penelitian, menyusun *Research Canvas*, dan membedah literatur akademik melalui pendekatan Socratic Dialogue. 
 
 Proyek ini dibangun menggunakan arsitektur modern untuk memastikan interaksi *real-time* yang lancar, aman, dan dapat diandalkan.
 
