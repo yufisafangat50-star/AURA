@@ -43,13 +43,15 @@ export function useChat(projectId: string) {
   }, [projectId, fetchMessages, updateCanvas]);
 
   const sendMessage = useCallback(
-    async (content: string) => {
+    async (content: string, isCritic: boolean = false, isLiteratureAgent: boolean = false) => {
       
       const optimisticMsg: Message = {
         id: `temp-${Date.now()}`,
         project_id: projectId,
         role: "user",
         content,
+        is_critic: isCritic,
+        is_literature_agent: isLiteratureAgent,
         created_at: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, optimisticMsg]);
@@ -59,7 +61,7 @@ export function useChat(projectId: string) {
         const res = await fetch(`/api/projects/${projectId}/messages`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content }),
+          body: JSON.stringify({ content, isCritic, isLiteratureAgent }),
         });
         
         const data = await res.json();

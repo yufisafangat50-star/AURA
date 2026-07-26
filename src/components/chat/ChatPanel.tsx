@@ -9,7 +9,7 @@ import ChatInput from "@/components/chat/ChatInput";
 
 interface ChatPanelProps {
   messages: Message[];
-  onSendMessage: (content: string) => void;
+  onSendMessage: (content: string, isCritic?: boolean, isLiteratureAgent?: boolean) => void;
   isLoading?: boolean;
 }
 

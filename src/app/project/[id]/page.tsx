@@ -105,7 +105,7 @@ export default function ProjectPage({
         </div>
 
         <div className="w-[40%]">
-          <CanvasPanel canvas={canvas} />
+          <CanvasPanel canvas={canvas} projectId={projectId} />
         </div>
       </div>
     </div>

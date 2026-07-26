@@ -4,6 +4,7 @@
 
 import type { Message } from "@/lib/types";
 import EvidenceCard from "@/components/chat/EvidenceCard";
+import DatasetCard from "@/components/chat/DatasetCard";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -20,11 +21,15 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}>
       <div
         className={`
-          relative max-w-[75%] border-2 px-4 py-3
+          relative max-w-[90%] border-2 px-4 py-3
           ${
             isUser
               ? "border-border-soft bg-paper-card text-ink"
-              : "washi-tape border-border-soft bg-paper-card-alt text-ink pt-5"
+              : message.is_critic 
+                ? "washi-tape border-ink bg-paper-card-alt text-ink pt-5 shadow-sm"
+                : message.is_literature_agent
+                  ? "washi-tape border-sage bg-paper-card-alt text-ink pt-5 shadow-sm"
+                  : "washi-tape border-border-soft bg-paper-card-alt text-ink pt-5"
           }
         `}
         style={{ borderRadius: "3px" }}
@@ -32,10 +37,16 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
 
         <span
           className={`label-caps mb-1.5 block ${
-            isUser ? "text-muted-light" : "text-sage"
+            isUser 
+              ? "text-muted-light" 
+              : message.is_critic 
+                ? "text-ink font-bold" 
+                : message.is_literature_agent
+                  ? "text-sage font-bold"
+                  : "text-sage"
           }`}
         >
-          {isUser ? "Kamu" : "Aura"}
+          {isUser ? "Kamu" : message.is_critic ? "Aura (Kritik)" : message.is_literature_agent ? "Aura (Literatur)" : "Aura"}
         </span>
 
         {!isUser ? (
@@ -72,6 +83,15 @@ export default function ChatBubble({ message }: ChatBubbleProps) {
             <span className="label-caps block text-sage mb-2">Sumber Literatur:</span>
             {message.references.map((ref) => (
               <EvidenceCard key={ref.id} reference={ref} />
+            ))}
+          </div>
+        )}
+
+        {message.dataset_references && message.dataset_references.length > 0 && (
+          <div className="mt-4 space-y-3 border-t-2 border-border-soft pt-4">
+            <span className="label-caps block text-sage mb-2">Sumber Dataset:</span>
+            {message.dataset_references.map((ref) => (
+              <DatasetCard key={ref.id} reference={ref} />
             ))}
           </div>
         )}

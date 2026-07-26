@@ -49,9 +49,27 @@ export interface Message {
   project_id: string;
   role: MessageRole;
   content: string;
+  is_critic?: boolean;
+  is_literature_agent?: boolean;
   created_at: string;
 
   references?: EvidenceReference[];
+  dataset_references?: DatasetReference[];
+}
+
+export interface DatasetReference {
+  id: string;
+  project_id: string;
+  dataset_title: string;
+  dataset_subtitle?: string;
+  creator?: string;
+  source_url: string;
+  source_provider: string;
+  format?: string;
+  coverage_period?: string;
+  license?: string;
+  retrieved_at: string;
+  relevance_note?: string;
 }
 
 export interface EvidenceReference {

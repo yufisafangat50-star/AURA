@@ -32,7 +32,7 @@ export default function RootLayout({
       <body className="min-h-screen font-sans antialiased">
         <AppProvider>
           <AppHeader />
-          <main className="mx-auto max-w-7xl px-4 py-6">{children}</main>
+          <main className="mx-auto max-w-[1600px] px-6 py-6">{children}</main>
         </AppProvider>
       </body>
     </html>

@@ -46,7 +46,7 @@ Proyek ini dibangun menggunakan arsitektur modern untuk memastikan interaksi *re
    ```bash
    cp env.example .env.local
    ```
-   *Catatan: Pastikan mengatur `GEMINI_MODEL_NAME=gemini-3-flash` di dalam `.env.local` jika menggunakan tier gratis.*
+   *Catatan: Pastikan mengatur `GEMINI_MODEL_NAME=gemini-3.5-flash` di dalam `.env.local` jika menggunakan tier gratis.*
 
 4. **Siapkan Database (Prisma)**
    Pastikan Supabase Anda berjalan, lalu sinkronkan skema database:

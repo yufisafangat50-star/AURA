@@ -11,6 +11,7 @@ enum ExperienceLevel {
   pemula
   menengah
   lanjutan
+
   @@map("experience_level")
 }
 
@@ -18,12 +19,14 @@ enum ProjectStatus {
   draft
   active
   archived
+
   @@map("project_status")
 }
 
 enum MessageRole {
   user
   assistant
+
   @@map("message_role")
 }
 
@@ -32,9 +35,9 @@ model User {
   email      String
   name       String?
   created_at DateTime @default(now()) @db.Timestamptz(6)
-  
-  genome     Genome?
-  projects   Project[]
+
+  genome   Genome?
+  projects Project[]
 
   @@map("users")
 }
@@ -50,7 +53,7 @@ model Genome {
   research_style_notes String?
   updated_at           DateTime         @default(now()) @db.Timestamptz(6)
 
-  user                 User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("genomes")
 }
@@ -63,10 +66,11 @@ model Project {
   created_at DateTime      @default(now()) @db.Timestamptz(6)
   updated_at DateTime      @default(now()) @db.Timestamptz(6)
 
-  user       User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  canvas     Canvas?
-  messages   Message[]
-  references EvidenceReference[]
+  user               User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  canvas             Canvas?
+  messages           Message[]
+  references         EvidenceReference[]
+  dataset_references DatasetReference[]
 
   @@map("projects")
 }
@@ -82,7 +86,7 @@ model Canvas {
   notes               String?
   updated_at          DateTime @default(now()) @db.Timestamptz(6)
 
-  project             Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
 
   @@map("canvases")
 }
@@ -92,19 +96,22 @@ model Message {
   project_id String      @db.Uuid
   role       MessageRole
   content    String
+  is_critic  Boolean     @default(false)
+  is_literature_agent Boolean @default(false)
   created_at DateTime    @default(now()) @db.Timestamptz(6)
 
-  project    Project     @relation(fields: [project_id], references: [id], onDelete: Cascade)
-  references EvidenceReference[]
+  project            Project             @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  references         EvidenceReference[]
+  dataset_references DatasetReference[]
 
   @@index([project_id, created_at], map: "idx_messages_project_id_created_at")
   @@map("messages")
 }
 
 model EvidenceReference {
-  id              String   @id @default(uuid()) @db.Uuid
-  project_id      String   @db.Uuid
-  message_id      String?  @db.Uuid
+  id               String   @id @default(uuid()) @db.Uuid
+  project_id       String   @db.Uuid
+  message_id       String?  @db.Uuid
   source_title     String
   source_authors   String?
   publication_year Int?
@@ -114,10 +121,33 @@ model EvidenceReference {
   retrieved_at     DateTime @default(now()) @db.Timestamptz(6)
   relevance_note   String?
 
-  project         Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
-  message         Message? @relation(fields: [message_id], references: [id], onDelete: Cascade)
+  project Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  message Message? @relation(fields: [message_id], references: [id], onDelete: Cascade)
 
   @@index([project_id], map: "idx_evidence_references_project_id")
   @@index([message_id], map: "idx_evidence_references_message_id")
   @@map("evidence_references")
+}
+
+model DatasetReference {
+  id               String   @id @default(uuid()) @db.Uuid
+  project_id       String   @db.Uuid
+  message_id       String?  @db.Uuid
+  dataset_title    String
+  dataset_subtitle String?
+  creator          String?
+  source_url       String
+  source_provider  String   @default("Kaggle")
+  format           String?
+  retrieved_at     DateTime @default(now()) @db.Timestamptz(6)
+  relevance_note   String?
+  coverage_period  String?
+  license          String?
+
+  project Project  @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  message Message? @relation(fields: [message_id], references: [id], onDelete: Cascade)
+
+  @@index([project_id])
+  @@index([message_id])
+  @@map("dataset_references")
 }
